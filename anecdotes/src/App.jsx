@@ -20,21 +20,29 @@ const App = () => {
     setSelected(randomIndex)
   }
 
-
   const incrementVotes = () => {
-    const votesCopy = { ...votes }
+    const votesCopy = [ ...votes ]
     votesCopy[selected] += 1
     setVotes(votesCopy)
   }
 
+  const mostVoted = votes.indexOf(Math.max(...votes))
+
   return (
     <div>
+      <h1>Anecdotes</h1>
       {anecdotes[selected]}
       <br />
       Has {votes[selected]} votes
       < br/>
       <button onClick={handleRandom}>Next Anecdote</button>
       <button onClick={incrementVotes}>Vote</button>
+      <br />
+      Anecdote with most votes:
+      <br />
+      {anecdotes[mostVoted]}
+      <br />
+      Has {votes[mostVoted]} votes
     </div>
   )
 }
