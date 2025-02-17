@@ -3,6 +3,7 @@ import axios from 'axios'
 import Search from './Search'
 import Persons from './Persons'
 import PersonForm from './PersonForm'
+import phonebookService from './services/phonebook'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -11,10 +12,10 @@ const App = () => {
   const [newSearch, setNewSearch] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    phonebookService
+      .getAllPersons()
+      .then(returnedPersons => {
+        setPersons(returnedPersons)
       })
   }, [])
 
@@ -31,13 +32,13 @@ const App = () => {
       return
     }
 
-    axios
-    .post('http://localhost:3001/persons', personObject)
-    .then(response => {
-      setPersons(persons.concat(response.data))
-      setNewName('')
-      setNewNumber('')
-    })
+    phonebookService
+      .addPersonToDb(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const handleNameChange = (event) => {
